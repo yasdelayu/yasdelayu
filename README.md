@@ -91,6 +91,101 @@ ships:       fast, documented, and actually working
 
 ---
 
+### <img src="https://media.giphy.com/media/du3J3cXyzhj75IOgvA/giphy.gif" width="28"/> &nbsp; `agents.deployed()`
+
+> Production AI agents I've built and operate. Not demos — they run 24/7.
+
+<table>
+<tr>
+<td width="58%" valign="top">
+
+#### 🤖 `JARVIS` &nbsp;·&nbsp; <sub><i>flagship case study</i></sub>
+
+Always-on autonomous agent running on my own Linux box. Wakes on Telegram
+messages from a single owner-verified channel, routes tasks to specialist
+sub-agents (dev / devops / content / security), holds a 4-layer memory
+that survives across sessions, and is hardened against prompt-injection
+in the wild.
+
+**Stack:** &nbsp; Claude Opus · Python · SQLite · Telegram Bot API · systemd
+**Skills:** &nbsp; persistent memory · agent routing · security audit · code review · content ops
+**Uptime:** 24/7 &nbsp;·&nbsp; **Sessions:** continuous &nbsp;·&nbsp; **Access:** owner-only
+
+</td>
+<td width="42%" valign="top">
+
+```yaml
+agent:    Jarvis
+runtime:  Linux + systemd
+brain:    Claude Opus 4.7
+memory:
+  ├─ semantic   (facts)
+  ├─ episodic   (events)
+  ├─ verbatim   (chunks)
+  └─ reflection (patterns)
+guards:
+  ├─ owner chat_id verify
+  ├─ prompt-injection log
+  └─ secret redaction
+```
+
+</td>
+</tr>
+</table>
+
+<details open>
+<summary><b>🧠 &nbsp; how Jarvis actually thinks — architecture</b></summary>
+<br/>
+
+```mermaid
+flowchart LR
+    U([👤 Owner<br/>Telegram])
+    BOT[📡 claudebot.py]
+    AUTH{owner<br/>chat_id?}
+    LOG[🛑 security.log]
+    ROUTER[🧭 Agent Router]
+
+    DEV[💻 dev / reviewer]
+    OPS[⚙️ devops / server]
+    CONT[✍️ content / SEO]
+    SEC[🛡 security audit]
+
+    CORE([🧠 Claude Opus 4.7])
+    MEM[("💾 brain.db<br/>4-layer memory")]
+
+    U -->|message| BOT --> AUTH
+    AUTH -- no  --> LOG
+    AUTH -- yes --> ROUTER
+    ROUTER --> DEV & OPS & CONT & SEC
+    DEV & OPS & CONT & SEC --> CORE
+    CORE <-->|read / write| MEM
+    CORE -->|reply| BOT --> U
+
+    classDef neon  fill:#0F1117,stroke:#00F0FF,color:#00F0FF,stroke-width:2px;
+    classDef mag   fill:#0F1117,stroke:#BD00FF,color:#BD00FF,stroke-width:2px;
+    classDef pink  fill:#0F1117,stroke:#FF6B9D,color:#FF6B9D,stroke-width:2px;
+    classDef green fill:#0F1117,stroke:#39FF14,color:#39FF14,stroke-width:2px;
+    class U,BOT,ROUTER neon
+    class CORE,MEM mag
+    class AUTH,LOG pink
+    class DEV,OPS,CONT,SEC green
+```
+
+</details>
+
+#### `> other agents in the field/`
+
+| Agent | Job | Channel | Status |
+|---|---|---|---|
+| 🧾 **Terminator** | summarises group chats · 24h digests · multi-chat | Telegram groups | live |
+| 📡 **Claudebot** | owner-only AI controller for the home server | Telegram DM | live |
+| 🎬 **Content pipeline** | auto-script · SEO · thumbnail prompts | internal | live |
+| 🔒 **Client agents** | custom AI workers · under NDA | private | references on request |
+
+<sub><i>If you need an agent that <b>actually does the job</b> instead of demoing — that's what I build.</i></sub>
+
+---
+
 ### <img src="https://media.giphy.com/media/SWoSkN6DxTszqIKEqv/giphy.gif" width="28"/> &nbsp; `stats --dump`
 
 <div align="center">
