@@ -186,6 +186,128 @@ flowchart LR
 
 ---
 
+### <img src="https://media.giphy.com/media/iIqmM5tTjmpOB9mpbn/giphy.gif" width="28"/> &nbsp; `now.building()`
+
+> *Two private commercial projects currently shipping. Code under NDA — architecture and stack are open.*
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+#### 🎵 &nbsp; Reaction Engine
+<sub>*music-news automation platform*</sub>
+
+End-to-end pipeline that turns **RSS feeds**, **Instagram / TikTok accounts** and **webhooks** into ready-to-publish Telegram posts.
+AI filters relevance, kills duplicates on three levels (URL · title · semantic), generates copy + images, schedules in timezone-aware queues and ships digests from history.
+
+```yaml
+stack:    TypeScript · React 19 · Vite
+backend:  Express · Supabase · Caddy
+ai:       OpenRouter · Gemini · Firecrawl
+ingest:   Apify · RSS · Webhooks
+deploy:   Docker · VPS
+status:   delivered & running
+scope:    full-stack · admin UI · client docs
+```
+
+</td>
+<td width="50%" valign="top">
+
+#### 🎬 &nbsp; Content Factory · SaaS
+<sub>*multi-tool content platform for creators*</sub>
+
+Telegram Mini App where users turn product links into **UGC reels**, **talking AI avatars**, **auto-edited videos** with subtitles & color, **carousels**, **scripts**, **voiceovers** and **competitor analytics**.
+Credit-based billing, render farm on Hetzner, tariffs from Free to Agency.
+
+```yaml
+stack:    Next.js 16 · React 19 · Tailwind 4
+data:     Supabase · Redis · BullMQ
+workers:  Python · FFmpeg · Whisper · VAD
+render:   Remotion · Go ffmpeg-over-ip
+ai:       OpenRouter · Gemini Veo
+deploy:   Vercel + Hetzner VPS
+status:   active development
+scope:    full-stack SaaS · billing · workers
+```
+
+</td>
+</tr>
+</table>
+
+<details open>
+<summary><b>📊 &nbsp; architecture — <code>Reaction Engine</code></b></summary>
+
+```mermaid
+flowchart LR
+    subgraph SRC["📥 SOURCES"]
+        RSS[RSS feeds]
+        APF[Apify<br/>IG · TikTok]
+        WH[Webhooks]
+    end
+    subgraph AI["🧠 AI PIPELINE"]
+        FLT[Relevance<br/>filter]
+        DD[Dedup<br/>url · title · semantic]
+        GEN[Draft +<br/>image gen]
+    end
+    subgraph ED["✍️ EDITOR"]
+        DR[Drafts]
+        SCH[Schedule<br/>KRSK tz]
+    end
+    OUT[📢 Telegram<br/>channel]
+    DB[(Supabase)]
+    SRC --> FLT --> DD --> GEN --> DR --> SCH --> OUT
+    GEN -.-> DB
+    SCH -.-> DB
+    DR -.-> DB
+
+    classDef cyan fill:#0F1117,stroke:#00F0FF,color:#00F0FF
+    classDef mag  fill:#0F1117,stroke:#BD00FF,color:#BD00FF
+    classDef pink fill:#0F1117,stroke:#FF6B9D,color:#FF6B9D
+    classDef grn  fill:#0F1117,stroke:#00FF9D,color:#00FF9D
+    class RSS,APF,WH cyan
+    class FLT,DD,GEN mag
+    class DR,SCH pink
+    class OUT,DB grn
+```
+
+</details>
+
+<details>
+<summary><b>📊 &nbsp; architecture — <code>Content Factory · SaaS</code></b></summary>
+
+```mermaid
+flowchart LR
+    U[👤 user] --> TG[Telegram<br/>Mini App]
+    TG --> WEB[Next.js<br/>Vercel]
+    WEB --> SB[(Supabase<br/>DB · Auth · Storage)]
+    WEB --> Q[Redis · BullMQ]
+    Q --> PY[Python workers<br/>Hetzner VPS]
+    PY --> FF[FFmpeg · Whisper<br/>VAD · RNNoise]
+    PY --> RM[Remotion<br/>motion graphics]
+    PY --> GO[Go<br/>ffmpeg-over-ip]
+    PY --> GW{AI gateway}
+    GW --> OR[OpenRouter<br/>GPT · Claude · Gemini]
+    GW --> VEO[Gemini Veo<br/>video gen]
+    PY --> SB
+
+    classDef cyan fill:#0F1117,stroke:#00F0FF,color:#00F0FF
+    classDef mag  fill:#0F1117,stroke:#BD00FF,color:#BD00FF
+    classDef pink fill:#0F1117,stroke:#FF6B9D,color:#FF6B9D
+    classDef grn  fill:#0F1117,stroke:#00FF9D,color:#00FF9D
+    class U,TG cyan
+    class WEB,Q,PY mag
+    class FF,RM,GO,GW pink
+    class OR,VEO,SB grn
+```
+
+</details>
+
+<sub><i>Need a system like one of these for your business? <a href="https://t.me/mmgpro"><b>DM me</b></a> — I take projects of any scope.</i></sub>
+
+
+
+---
+
 ### <img src="https://media.giphy.com/media/SWoSkN6DxTszqIKEqv/giphy.gif" width="28"/> &nbsp; `stats --dump`
 
 <div align="center">
